@@ -73,6 +73,18 @@ export class TodoCreateResolver {
 	}
 }
 
+@InputType()
+class UpdateTodoOptios implements Partial<Omit<ITodo, 'id'>> {
+	@Field({ nullable: true })
+	title?: string
+
+	@Field({ nullable: true })
+	description?: string
+
+	@Field({ nullable: true })
+	completed?: boolean
+}
+
 @Resolver()
 export class TodoUpdateResolver {
 	@Mutation(() => Todo)

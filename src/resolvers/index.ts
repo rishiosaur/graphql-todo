@@ -1,6 +1,7 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Mutation, Query, Resolver, InputType, Field } from 'type-graphql'
 import { ITodo } from '../models/Todo'
 import Todo from '../models/Todo'
+import { FILE } from 'dns'
 
 const data: ITodo[] = [
 	{
@@ -42,6 +43,18 @@ export class TodoQueryResolver {
 			throw new Error(`Could not find Todo with ID ${id}`)
 		}
 	}
+}
+
+@InputType()
+class CreateTodoOptions implements Partial<ITodo> {
+	@Field()
+	title: string
+
+	@Field()
+	description: string
+
+	@Field({ nullable: true })
+	completed?: boolean = false
 }
 
 @Resolver()

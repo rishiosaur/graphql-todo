@@ -1,12 +1,12 @@
 import 'reflect-metadata'
 import { ApolloServer } from 'apollo-server'
 import { buildSchema } from 'type-graphql'
-import TodoQueryResolver from './resolvers/index'
+import { TodoQueryResolver, TodoCreateResolver } from './resolvers/index'
 
 async function main() {
 	// Compiled schema definition from TypeGraphQL
 	const schema = await buildSchema({
-		resolvers: [TodoQueryResolver], // TODO: remove this, add in real resolvers
+		resolvers: [TodoQueryResolver, TodoCreateResolver], // TODO: remove this, add in real resolvers
 		validate: false,
 	})
 

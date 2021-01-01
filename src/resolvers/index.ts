@@ -1,6 +1,8 @@
-import { Arg, Query, Resolver } from 'type-graphql'
+import { Arg, Mutation, Query, Resolver, InputType, Field } from 'type-graphql'
 import { ITodo } from '../models/Todo'
 import Todo from '../models/Todo'
+import { v4 as uuid } from 'uuid'
+
 const data: ITodo[] = [
 	{
 		id: '2815a531-66c7-4274-ac83-c6b45abe8885',
@@ -25,7 +27,7 @@ const data: ITodo[] = [
 ]
 
 @Resolver()
-export default class TodoQueryResolver {
+export class TodoQueryResolver {
 	@Query(() => [Todo])
 	public todos() {
 		return data.map((todo) => new Todo(todo))
@@ -40,5 +42,32 @@ export default class TodoQueryResolver {
 		} else {
 			throw new Error(`Could not find Todo with ID ${id}`)
 		}
+	}
+}
+
+@InputType()
+class CreateTodoOptions implements Partial<ITodo> {
+	@Field()
+	title: string
+
+	@Field()
+	description: string
+
+	@Field({ nullable: true, defaultValue: false })
+	completed: boolean
+}
+
+@Resolver()
+export class TodoCreateResolver {
+	@Mutation(() => Todo)
+	public createTodo(@Arg('todo') todo: CreateTodoOptions) {
+		const finalTodo: ITodo = {
+			...todo,
+			id: uuid(),
+		}
+
+		data.push(finalTodo)
+
+		return new Todo(finalTodo)
 	}
 }

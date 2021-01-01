@@ -119,5 +119,19 @@ export class TodoUpdateResolver {
 	}
 
 	@Mutation(() => Todo)
-	public toggleTodo(@Arg('id') id: string) {}
+	public toggleTodo(@Arg('id') id: string) {
+		const searchedTodo = data[id]
+
+		if (searchedTodo) {
+			searchedTodo.completed = !searchedTodo.completed
+
+			data[id] = searchedTodo
+
+			return new Todo({
+				...searchedTodo,
+				id,
+			})
+		}
+		throw new Error(`Could not find Todo with ID ${id}`)
+	}
 }

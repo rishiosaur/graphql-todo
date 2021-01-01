@@ -2,7 +2,6 @@ import { Arg, Mutation, Query, Resolver, InputType, Field } from 'type-graphql'
 import { ITodo } from '../models/Todo'
 import Todo from '../models/Todo'
 import { v4 as uuid } from 'uuid'
-import { Resolver } from 'dns'
 
 const data: Record<string, Omit<ITodo, 'id'>> = {
 	'2815a531-66c7-4274-ac83-c6b45abe8885': {

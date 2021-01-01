@@ -1,7 +1,7 @@
 import { Arg, Mutation, Query, Resolver, InputType, Field } from 'type-graphql'
 import { ITodo } from '../models/Todo'
 import Todo from '../models/Todo'
-import { FILE } from 'dns'
+import uuid from 'uuid'
 
 const data: ITodo[] = [
 	{
@@ -53,12 +53,21 @@ class CreateTodoOptions implements Partial<ITodo> {
 	@Field()
 	description: string
 
-	@Field({ nullable: true })
+	@Field({ nullable: true, defaultValue: false })
 	completed?: boolean = false
 }
 
 @Resolver()
 export class TodoCreateResolver {
 	@Mutation(() => Todo)
-	public createTodo(@Arg('todo') todo: CreateTodoOptions) {}
+	public createTodo(@Arg('todo') todo: CreateTodoOptions) {
+		const finalTodo: ITodo = {
+			...todo,
+			id: uuid.v4(),
+		}
+
+		data.push(finalTodo)
+
+		return new Todo(finalTodo)
+	}
 }

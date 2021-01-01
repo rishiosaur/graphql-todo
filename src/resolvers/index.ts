@@ -84,7 +84,7 @@ export class TodoCreateResolver {
 }
 
 @InputType()
-class UpdateTodoOptios implements Partial<Omit<ITodo, 'id'>> {
+class UpdateTodoOptions implements Partial<Omit<ITodo, 'id'>> {
 	@Field({ nullable: true })
 	title?: string
 
@@ -102,10 +102,17 @@ export class TodoUpdateResolver {
 		@Arg('id') id: string,
 		@Arg('data') _data: UpdateTodoOptions
 	) {
-		const searchedTodo = data.filter((todo) => todo.id === id)
+		const searchedTodo = data[id]
 
 		if (searchedTodo) {
 			Object.assign(searchedTodo, _data)
+
+			data[id] = searchedTodo
+
+			return new Todo({
+				...searchedTodo,
+				id,
+			})
 		}
 
 		throw new Error(`Could not find Todo with ID ${id}`)

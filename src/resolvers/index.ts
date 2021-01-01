@@ -27,16 +27,25 @@ const data: Record<string, Omit<ITodo, 'id'>> = {
 @Resolver()
 export class TodoQueryResolver {
 	@Query(() => [Todo])
-	public todos() {
-		return data.map((todo) => new Todo(todo))
+	public todos(): Todo[] {
+		return Object.entries(data).map(
+			([key, value]) =>
+				new Todo({
+					id: key,
+					...value,
+				})
+		)
 	}
 
 	@Query(() => Todo)
 	public todo(@Arg('id') id: string) {
-		const todo = data.filter((todo) => todo.id === id)[0]
+		const todo = data[id]
 
 		if (todo) {
-			return new Todo(todo)
+			return new Todo({
+				id,
+				...todo,
+			})
 		} else {
 			throw new Error(`Could not find Todo with ID ${id}`)
 		}

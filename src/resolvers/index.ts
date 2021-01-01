@@ -68,14 +68,18 @@ class CreateTodoOptions implements Partial<ITodo> {
 export class TodoCreateResolver {
 	@Mutation(() => Todo)
 	public createTodo(@Arg('todo') todo: CreateTodoOptions) {
-		const finalTodo: ITodo = {
+		const finalTodo: Omit<ITodo, 'id'> = {
 			...todo,
-			id: uuid(),
 		}
 
-		data.push(finalTodo)
+		const id = uuid()
 
-		return new Todo(finalTodo)
+		data[id] = finalTodo
+
+		return new Todo({
+			...finalTodo,
+			id,
+		})
 	}
 }
 

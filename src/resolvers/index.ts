@@ -4,7 +4,25 @@ import Todo from '../models/Todo'
 import { v4 as uuid } from 'uuid'
 import { Resolver } from 'dns'
 
-const data: Record<string, Omit<ITodo, 'id'>>
+const data: Record<string, Omit<ITodo, 'id'>> = {
+	'2815a531-66c7-4274-ac83-c6b45abe8885': {
+		completed: true,
+		title: 'culpa assumenda voluptas',
+		description: 'Velit culpa quasi temporibus rerum.',
+	},
+	'd89101c1-9bc6-43ff-a1bf-b4bf7d018a5c': {
+		completed: false,
+		title:
+			'Facilis quis optio recusandae laboriosam architecto aut iusto debitis eaque. Consectetur ducimus aut asperiores tempora aut ea.',
+		description:
+			'Dolore eaque quos dolorem in.\nPlaceat consectetur quo distinctio.',
+	},
+	'09f4332a-f037-4504-94b9-053b5f5da42b': {
+		completed: true,
+		title: 'voluptas architecto et',
+		description: 'rerum',
+	},
+}
 
 @Resolver()
 export class TodoQueryResolver {

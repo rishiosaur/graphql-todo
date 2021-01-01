@@ -2,6 +2,7 @@ import { Arg, Mutation, Query, Resolver, InputType, Field } from 'type-graphql'
 import { ITodo } from '../models/Todo'
 import Todo from '../models/Todo'
 import { v4 as uuid } from 'uuid'
+import { Resolver } from 'dns'
 
 const data: ITodo[] = [
 	{
@@ -70,4 +71,16 @@ export class TodoCreateResolver {
 
 		return new Todo(finalTodo)
 	}
+}
+
+@Resolver()
+export class TodoUpdateResolver {
+	@Mutation(() => Todo)
+	public updateTodo(
+		@Arg('id') id: string,
+		@Arg('data') data: UpdateTodoOptions
+	) {}
+
+	@Mutation(() => Todo)
+	public toggleTodo(@Arg('id') id: string) {}
 }
